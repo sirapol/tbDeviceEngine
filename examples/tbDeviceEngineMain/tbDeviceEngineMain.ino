@@ -1,27 +1,29 @@
 #include <tbDeviceEngine.h>
-#include <ThingsBoard.h> // Assuming you have the ThingsBoard client library installed
+
+tbDeviceEngine tbEngine;
 
 void setup()
 {
-    Serial.begin(9600);
-    // tbDeviceEngine::setHost("your-thingsboard-host.com");
-    // tbDeviceEngine::setToken("your-device-access-token");
-    // Optionally set port if different from the default (1883)
-    // tbDeviceEngine::setPort(1883);
 
-    // Initialize your ThingsBoard client using the configured values
-    // ThingsBoard client;
-    // if (client.connect())
-    // {
-    //     Serial.println("Connected to ThingsBoard!");
-    // }
-    // else
-    // {
-    //     Serial.println("Failed to connect to ThingsBoard!");
-    // }
+    USB_SERIAL.begin(USB_SERIAL_BAUD);
+    delay(100);
+    tbEngine.setTbHost("fluke-electronics.com");
+    tbEngine.setTbDeviceToken("LomprVvl0eUfRXjSi3hz");
+    tbEngine.setTbPort(1883);
+    tbEngine.setClientSsid("injectorhome_2.4GHz");
+    tbEngine.setClientPassword("sirapols0422");
+    tbEngine.setIsAp(false);
+    tbEngine.setIsGateway(false);
+
+    USB_SERIAL.println("host = " + String(tbEngine.getTbHost()));
+    USB_SERIAL.println("port = " + String(tbEngine.getTbPort()));
+    USB_SERIAL.println("token = " + String(tbEngine.getTbDeviceToken()));
+
+    tbEngine.begin();
 }
 
 void loop()
 {
+    tbEngine.loop();
     // Your code to send telemetry data or receive commands from ThingsBoard
 }
